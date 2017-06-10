@@ -1,0 +1,48 @@
+/*
+
+# Trumps
+
+- Basically the helpers, they can have !important but ever need to have an dash before the name Example: `.-clearfix`
+
+*/
+
+._clearfix
+  &:before,
+  &:after
+    content: ""
+    display: table
+
+  &:after
+    clear: both
+
+._img-responsive
+  display block
+  min-width 100%
+  height auto
+
+._c-1140
+  margin 0 auto
+  max-width 1110px
+  width 100%
+
+  @media (max-width: $screen-sm-max)
+    max-width calc(100% - 60px)
+
+._lg-pull-right
+  @media (min-width: $screen-sm-max)
+    float right
+
+._lg-pull-left
+  @media (min-width: $screen-sm-max)
+    float left
+
+._sm-pull-right
+  @media (max-width: $screen-sm-max)
+    float right
+
+._sm-pull-left
+  @media (max-width: $screen-sm-max)
+    float left
+
+._noscroll
+  overflow hidden

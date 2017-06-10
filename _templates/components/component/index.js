@@ -1,5 +1,5 @@
-(function(win, doc, $){
+/* global jQuery */
 
-	console.log('[%COMPONENT_NAME%: INITIALIZED]');
-
-})(window, document, jQuery);
+(function (win, doc, $) {
+  console.log(`[%COMPONENT_NAME%: INITIALIZED]`)
+})(window, document, jQuery)

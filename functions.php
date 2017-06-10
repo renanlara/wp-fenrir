@@ -44,7 +44,8 @@ function wp_fenrir_setup() {
 
 	// This theme uses wp_nav_menu() in one location.
 	register_nav_menus( array(
-		'menu-1' => esc_html__( 'Primary', 'wp-fenrir' ),
+		'menu-esquerda' => esc_html__( 'Menu Esquerda', 'wp-fenrir' ),
+    'menu-direita' => esc_html__( 'Menu Direita', 'wp-fenrir' ),
 	) );
 
 	/*
@@ -145,8 +146,22 @@ require get_template_directory() . '/inc/jetpack.php';
 
 
 /**
+ * Bootstrap Navwalker
+ */
+require get_template_directory() . '/inc/bootstrap-navwalker.php';
+
+
+/**
 *
-*	GAIA IMPROVE
+*	Components Module ES6 + Stylus for WordPress
 *
 **/
 require get_template_directory() . '/inc/components.php';
+
+
+/**
+*
+* Common Funcions
+*
+**/
+require get_template_directory() . '/inc/common-functions.php';

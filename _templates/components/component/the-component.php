@@ -1,6 +1,8 @@
 <?php function the_component_%COMPONENT_NAME%() { ?>
 
-
+<div>
+  %COMPONENT_NAME% is now available!
+</div>
 
 
 

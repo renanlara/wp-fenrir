@@ -11,18 +11,20 @@
 
 ?>
 
-	</div><!-- #content -->
+  	</div><!-- #content -->
+  </div><!-- #page -->
 
-	<footer id="colophon" class="site-footer" role="contentinfo">
-		<div class="site-info">
-			<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'wp-fenrir' ) ); ?>"><?php printf( esc_html__( 'Proudly powered by %s', 'wp-fenrir' ), 'WordPress' ); ?></a>
-			<span class="sep"> | </span>
-			<?php printf( esc_html__( 'Theme: %1$s by %2$s.', 'wp-fenrir' ), 'wp-fenrir', '<a href="https://automattic.com/" rel="designer">Underscores.me</a>' ); ?>
-		</div><!-- .site-info -->
-	</footer><!-- #colophon -->
-</div><!-- #page -->
+    <footer id="footer" class="site-footer" role="contentinfo">
+      <div class="container">
+        <div class="row">
+          <a class="text-center" href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home">
+            <?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>
+          </a>
+        </div>
+      </div>
+    </footer><!-- #footer / colophon -->
 
-<?php wp_footer(); ?>
+    <?php wp_footer(); ?>
 
-</body>
+  </body>
 </html>

@@ -13,6 +13,7 @@ const stylint = require('gulp-stylint');
 const shell = require('gulp-shell');
 const minify = require('gulp-minify');
 const argv = require('yargs').argv;
+const standard = require('gulp-standard');
 const fs = require('fs');
 
 
@@ -46,7 +47,7 @@ gulp.task('sprites', function(){
 // - Distribution CSS Files
 gulp.task('distCSS', function () {
 	return watch(['components/**/*.styl', '!components/**/*.min.css'], function () {
-		
+
 
 		gulp.src(['components/**/*.styl', '!components/**/*.min.css'], { base: "./" })
 		.pipe(plumber())
@@ -65,11 +66,36 @@ gulp.task('distCSS', function () {
 	});
 });
 
+gulp.task('distAppCSS', function () {
+	return watch(['assets/styl/**/*.styl'], function () {
+
+
+		gulp.src(['assets/styl/application.styl'])
+		.pipe(plumber())
+		.pipe(sourcemaps.init())
+		.pipe(stylus({
+	      compress: true
+		}))
+		.pipe(rename(function (path) {
+			path.extname = ".min.css"
+		}))
+		.pipe(sourcemaps.write('/'))
+		//.pipe(shell.task([ 'stylint components/ -c .stylintrc' ]))
+		.pipe(gulp.dest('assets/css/'))
+		console.log(color('[CSS generated]', 'CYAN'));
+	});
+});
+
 // - Distribution JavaScript Files
 gulp.task('distJS', () => {
     return watch(['components/**/*.js', '!components/**/*.min.js'], function () {
     	gulp.src(['components/**/*.js', '!components/**/*.min.js'], { base: "./" })
 	    .pipe(plumber())
+      .pipe(standard())
+      .pipe(standard.reporter('default', {
+        breakOnError: true,
+        quiet: true
+      }))
 	    .pipe(sourcemaps.init())
 	    .pipe(babel({
 	        presets: ['es2015-without-strict']
@@ -80,8 +106,42 @@ gulp.task('distJS', () => {
 		}))
 	    .pipe(sourcemaps.write('.'))
 	    .pipe(gulp.dest('.'));
-	    console.log(color('[SVG-ICON _sprite generated]', 'YELLOW'));
+	    console.log(color('[JAVASCRIPTS generated]', 'YELLOW'));
     });
+});
+
+
+gulp.task('template', function(){
+  const componentName = argv.c;
+  const dir = `./page-templates`;
+
+  // Variables for page-template.php
+  const initBase = './_templates/page-templates/page-template.php';
+  const destTemplate = `${dir}/template-page-${componentName}.php`;
+
+  if (!fs.existsSync(destTemplate)){
+    console.log(destTemplate);
+
+    fs.readFile(initBase, 'utf8', function (err,data) {
+      if (err) {
+        return console.log(err);
+      }
+      if (data) {
+        var result = data.replace(/%TEMPLATE_NAME%/g, componentName);
+        // Crio o Arquivo init.php
+        console.log(destTemplate);
+        fs.writeFile(destTemplate, result, 'utf8', function (err) {
+          if (err) return console.log(err);
+          console.log("O arquivo foi criado!");
+        });
+        return result;
+      }
+    });
+
+    console.log(color('[COMPONENTE CRIADO COM SUCESSO]', 'GREEN'));
+  } else {
+    console.log(color('[COMPONENTE JÁ EXISTE]', 'RED'));
+  }
 });
 
 gulp.task('component', function(){
@@ -122,7 +182,7 @@ gulp.task('component', function(){
 				console.log(destInit);
 				fs.writeFile(destInit, result, 'utf8', function (err) {
 					if (err) return console.log(err);
-					console.log("The file was saved!");
+					console.log("O arquivo foi criado!");
 				});
 				return result;
 			}
@@ -139,7 +199,7 @@ gulp.task('component', function(){
 				console.log(destTheComponent);
 				fs.writeFile(destTheComponent, result, 'utf8', function (err) {
 					if (err) return console.log(err);
-					console.log("The file was saved!");
+					console.log("O arquivo foi criado!");
 				});
 				return result;
 			}
@@ -156,7 +216,7 @@ gulp.task('component', function(){
 				console.log(destJs);
 				fs.writeFile(destJs, result, 'utf8', function (err) {
 					if (err) return console.log(err);
-					console.log("The file was saved!");
+					console.log("O arquivo foi criado!");
 				});
 				return result;
 			}
@@ -173,7 +233,7 @@ gulp.task('component', function(){
 				console.log(destStylus);
 				fs.writeFile(destStylus, result, 'utf8', function (err) {
 					if (err) return console.log(err);
-					console.log("The file was saved!");
+					console.log("O arquivo foi criado!");
 				});
 				return result;
 			}
@@ -195,5 +255,5 @@ gulp.task('stylint', shell.task([
 
 
 gulp.task('default', function(cb) {
-  runSequence(['distJS', 'distCSS', 'sprites'], cb)
+  runSequence(['distJS', 'distAppCSS', 'distCSS', 'sprites'], cb)
 });
