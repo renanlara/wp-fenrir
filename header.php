@@ -29,7 +29,7 @@
 
   <div id="page" class="site">
   	<header class="site-header _clearfix" role="banner">
-      <?php the_component('menu_geral') ?>
+
   	</header>
 
   	<div id="content" class="site-content">
